@@ -10,7 +10,7 @@ var genLetters = [
   "a", "b", "c", "d", "e", "f", "g", "h", "i" , "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 ];
 var genNumeric= [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+  "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 ];
 var genSpecialCharacters = [
   " ", "!", '"', "#", "$", "%", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "\\", "^", "_", "`", "{", "|", "}", "~"
@@ -20,27 +20,31 @@ console.log(genLetters.length);
 console.log(genNumeric.length);
 console.log(genSpecialCharacters.length);
 
-// Variable for character criteria
+// Variables for character criteria
 var charCriteriaCounter = 0;
+  //* This variable holds criteria selected in passwordObjectGen (See getCriteriaPrompt function called in passwordObjectGen)
 var criteriaAggregate = [];
 
 // Password Criteria Functions
 function getCriteriaLength() {
   var passLength = window.prompt("Please enter just a number from 8 - 128 to define the length of the password");
+  // User input validation
   if (isNaN(passLength) || passLength < 8 || passLength > 128) {
   window.alert("I didn't understand that. Please try again");
   getCriteriaLength();
   } else {
     passLength = Math.floor(Number(passLength));
   }
+  
   return passLength;
 }
 
 function getCriteriaPrompt(criteria) {
   switch (window.confirm("Include "+ criteria + " Characters?")) {
     case true:
+      // Update criteria varibales before returning
       charCriteriaCounter++;
-      criteriaAggregate += criteria;
+      criteriaAggregate.push(criteria);
       return true;
     case false:
       return false;
@@ -49,18 +53,17 @@ function getCriteriaPrompt(criteria) {
 
 // Utility Functions
 function randomNumRange(min, max) {
-  Math.floor(Math.random() * (max - min) + min);
+  return Math.round(Math.random() * (max - min) + min);
 }
 
-function randomCharacterSelect(criteriaAmount, includeUppercase, includeLowercase, includeNumeric, includeSpecial) {
-  for (i=0; i < criteriaAmount; i++) {
-  }
-  var criteriaFlip = randomNumRange(1, criteriaAmount);
+function randomCharacterSelect(criteriaAmount) {
+  var criteriaFlip = randomNumRange(0, criteriaAmount-1);
+
   switch (criteriaAggregate[criteriaFlip]) {
     case "Uppercase":
-      return toUpperCase(genLetters[randomNumRange(0, 25)]);
+      return genLetters[randomNumRange(0, 25)].toUpperCase();
     case "Lowercase":
-      return toLowerCase(genLetters[randomNumRange(0, 25)]);
+      return genLetters[randomNumRange(0, 25)].toLowerCase();
     case "Numeric":
       return genNumeric[randomNumRange(0, 9)];
     case "Special":
@@ -70,6 +73,7 @@ function randomCharacterSelect(criteriaAmount, includeUppercase, includeLowercas
 
 // Password Character Criteria Generator Function
 function passwordObjectGen() {
+  // Variable reset, just in case
   charCriteriaCounter = 0;
   criteriaAggregate = [];
 
@@ -97,11 +101,14 @@ function generatePassword() {
   var password = passwordObjectGen();
   console.log(password);
 
-  // For loop generates password.
+  // For loop generates password
+  password.passGen.toString();
   for (i=0; i < password.passLength; i++) {
-    password.passGen = password.passGen + randomCharacterSelect(charCriteriaCounter, password.passCriteriaUppercase, password.passCriteriaLowercase, password.passCriteriaNumeric, password.passCriteriaSpecial);
+    password.passGen += randomCharacterSelect(charCriteriaCounter);
     console.log(password.passGen);
   }
+
+  return password.passGen;
 }
 
 // Write password to the #password input
