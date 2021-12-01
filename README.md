@@ -1,5 +1,11 @@
 # Module 3 UCF Web Development Boot Camp Assignment Submission
 
+## Description
+
+Password generator challenge completed to submit to Web Development Bootcamp at University of Central Florida.
+You may find this project live at https://thebrrt.github.io/PassCure/
+![Screenshot](assets/images/main_screenshot.png)
+
 ## User Story
 
 * AS AN employee w access to sensitive data
