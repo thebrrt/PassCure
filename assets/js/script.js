@@ -31,12 +31,11 @@ function getCriteriaLength() {
   // User input validation
   if (isNaN(passLength) || passLength < 8 || passLength > 128) {
   window.alert("I didn't understand that. Please try again");
-  getCriteriaLength();
+  return getCriteriaLength();
   } else {
     passLength = Math.floor(Number(passLength));
+    return passLength;
   }
-  
-  return passLength;
 }
 
 function getCriteriaPrompt(criteria) {
@@ -53,11 +52,14 @@ function getCriteriaPrompt(criteria) {
 
 // Utility Functions
 function randomNumRange(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
+  var calc = Math.round(Math.random() * (max - min) + min);
+  console.log(calc);
+  return calc;
 }
 
 function randomCharacterSelect(criteriaAmount) {
   var criteriaFlip = randomNumRange(0, criteriaAmount-1);
+  console.log(criteriaFlip);
 
   switch (criteriaAggregate[criteriaFlip]) {
     case "Uppercase":
@@ -89,8 +91,9 @@ function passwordObjectGen() {
   // Check to see if at least one criteria is enabled
   if (password.passCriteriaUppercase === false && password.passCriteriaLowercase === false && password.passCriteriaNumeric === false && password.passCriteriaSpecial === false) {
     window.alert("I can't generate a password for you if I can't use any type of characters at all. Please try again");
-    passwordObjectGen();
+    return passwordObjectGen();
   } else {
+    console.log(password);
     return password;
   }
 }
@@ -100,6 +103,8 @@ function generatePassword() {
   // Create password object, calling prompt functions to retrieve password generation criteria
   var password = passwordObjectGen();
   console.log(password);
+  console.log(password.passLength);
+  console.log(criteriaAggregate);
 
   // For loop generates password
   password.passGen.toString();
